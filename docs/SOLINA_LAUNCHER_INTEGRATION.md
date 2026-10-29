@@ -21,9 +21,13 @@ User-provided read-only device output identified:
 
 These facts identify the environment; they do not show Quickstep runtime functionality.
 
-### Source-level evidence
+#### Repository rename confirmed
 
-The Solina-Launcher2 repository's README documents the build task:
+The canonical launcher repository is now [Solina-Launcher](https://github.com/Solina-Projects/Solina-Launcher) (default branch `main`). The repository API confirms the renamed repository is public and its current `main` commit is `cbd58321761781fcdaea5e9e517ef99875ed5ed4`. This identifies the source currently available for review; it does **not** establish that installed version `16.Dev.(#60)` was built from this exact commit.
+
+## Source-level evidence
+
+The renamed Solina-Launcher repository's README documents the build task:
 
 `assembleLawnWithQuickstepGithubDebug`
 
@@ -32,8 +36,8 @@ The source tree also contains Launcher3/Quickstep-related components and compati
 The upstream QuickSwitch README says a launcher must implement Quickstep support itself; the module cannot add that implementation to an otherwise incompatible launcher. It also explicitly cautions that Nova is unlikely to support QuickSwitch. This project therefore prioritizes Solina Launcher.
 
 References:
-- [Solina Launcher README](https://github.com/Solina-Projects/Solina-Launcher2/blob/main/README.md)
-- [Solina Launcher manifest](https://github.com/Solina-Projects/Solina-Launcher2/blob/main/AndroidManifest.xml)
+- [Solina Launcher README](https://github.com/Solina-Projects/Solina-Launcher/blob/main/README.md)
+- [Solina Launcher manifest](https://github.com/Solina-Projects/Solina-Launcher/blob/main/AndroidManifest.xml)
 - [Upstream QuickSwitch README](https://github.com/skittles9823/QuickSwitch/blob/master/README.md)
 
 ## Required next steps (in order)
