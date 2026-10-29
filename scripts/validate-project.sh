@@ -24,6 +24,12 @@ grep -Fq 'NOT TESTED' docs/SUPPORT_MATRIX.md || fail "support matrix must mark t
 grep -Fq 'docs/test-reports/' docs/SUPPORT_MATRIX.md || fail "support matrix must require separate test reports"
 pass "support matrix defaults to unverified and identifies the target for testing"
 
+grep -Fq 'experimental, debug-only' docs/SOLINA_LAUNCHER_INTEGRATION.md || fail "launcher integration audit must identify Quickstep build as experimental/debug-only"
+grep -Fq 'NOT TESTED' docs/SOLINA_LAUNCHER_INTEGRATION.md || fail "launcher integration audit must not imply runtime compatibility"
+grep -Fq 'API 37' docs/SOLINA_LAUNCHER_INTEGRATION.md || fail "launcher integration audit must explicitly cover API 37"
+grep -Fq 'does not produce an installable module' README.md || fail "README must distinguish launcher APK build evidence from a QuickSwitch module"
+pass "launcher integration evidence remains explicitly experimental, API 37 runtime-unverified, and not an installable module"
+
 grep -Fq 'Do not use this template as permission to install or modify anything' docs/DEVICE_TEST_REPORT_TEMPLATE.md || fail "device report template must warn against unauthorized changes"
 grep -Fq 'build fingerprint' docs/DEVICE_TEST_REPORT_TEMPLATE.md || fail "device report template is missing build identification"
 grep -Fq 'Root manager exact version' docs/DEVICE_TEST_REPORT_TEMPLATE.md || fail "device report template is missing root-manager version capture"
