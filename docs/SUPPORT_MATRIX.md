@@ -60,3 +60,10 @@ Do not infer support from root access, a successful build, a passing fixture tes
 4. Submit the report for review before changing any support status. Do not add a completed report for a test that did not happen.
 
 Until an evidence-backed report is reviewed, all combinations remain NOT TESTED and state-changing features remain disabled.
+
+
+## Update: experimental Quickstep build evidence (2026-10-29)
+
+The separate [Solina-Launcher API 37 audit branch](https://github.com/Solina-Projects/Solina-Launcher/tree/feature/quickstep-api37-audit) now builds an experimental, debug-only `solinaQuickstepGithubDebug` variant. CI run [40815028487](https://github.com/Solina-Projects/Solina-Launcher/actions/runs/40815028487) succeeded, and the artifact's decoded manifest includes Quickstep service/action and Recents declarations. This means the earlier claim that no Quickstep-enabled APK build path exists is no longer current for that feature branch.
+
+The result remains **NOT TESTED at runtime**. The API 37 debug SDK-range override is not a release compatibility declaration; production support bounds remain API 35–36. The OS/ROM privilege grants, service binding, Recents, gestures, animation callbacks, rollback, and module licensing remain unresolved. No installable QuickSwitch module is produced by this evidence.
