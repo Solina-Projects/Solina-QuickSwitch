@@ -46,7 +46,7 @@ See [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md) for the source and licensing review
 
 ## Latest automated validation
 
-The current branch passed the [Test workflow run 40828908763](https://github.com/Solina-Projects/Solina-QuickSwitch/actions/runs/40828908763) at commit `e6ac1281613bc22f79f918b1ecdc015eb6c5ca73`. It validates repository safeguards and simulated/read-only helper tests only; it does **not** build an installable module or verify device runtime compatibility. See [the dated validation report](docs/AUTOMATED_VALIDATION_REPORT_2026-10-29.md).
+The current branch passed the [Test workflow run 40829958461](https://github.com/Solina-Projects/Solina-QuickSwitch/actions/runs/40829958461) at commit `942ad3f21b4ce188203964626aa4f47e939ca3ea`. The workflow also guards against documentation drifting into claims that the experimental API 37 Quickstep APK is runtime-verified or that an installable QuickSwitch module exists. It validates repository safeguards and simulated/read-only helper tests only; it does **not** build an installable module or verify device runtime compatibility. See [the dated validation report](docs/AUTOMATED_VALIDATION_REPORT_2026-10-29.md).
 
 ## Support matrix and test requirements
 
