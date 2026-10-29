@@ -4,7 +4,7 @@ set -euo pipefail
 fail() { printf 'FAIL: %s\n' "$1" >&2; exit 1; }
 pass() { printf 'PASS: %s\n' "$1"; }
 
-for path in README.md UPSTREAM_REVIEW.md docs/ARCHITECTURE.md scripts/probe-device.sh scripts/resolve-capabilities.sh scripts/build-plan.sh tests/test-probe.sh tests/test-resolver.sh tests/test-plan.sh tests/fixtures/state-launcher-known.properties tests/fixtures/state-missing-provider.properties tests/fixtures/state-malformed.properties; do
+for path in README.md UPSTREAM_REVIEW.md docs/ARCHITECTURE.md docs/SUPPORT_MATRIX.md scripts/probe-device.sh scripts/resolve-capabilities.sh scripts/build-plan.sh tests/test-probe.sh tests/test-resolver.sh tests/test-plan.sh tests/fixtures/state-launcher-known.properties tests/fixtures/state-missing-provider.properties tests/fixtures/state-malformed.properties; do
   [[ -f "$path" ]] || fail "required project file is missing: $path"
 done
 pass "required docs, scripts, fixtures, and tests exist"
@@ -17,6 +17,11 @@ pass "project status, licensing caution, and release gate are documented"
 grep -Fq 'Do not copy, modify, repackage, or redistribute upstream source' UPSTREAM_REVIEW.md || fail "upstream review is missing source/binary restrictions"
 grep -Fq 'recovery/rollback' UPSTREAM_REVIEW.md || fail "upstream review is missing recovery test requirements"
 pass "upstream review retains licensing and device-safety requirements"
+
+grep -Fq 'no configuration is currently verified as supported' docs/SUPPORT_MATRIX.md || fail "support matrix must default to no verified support"
+grep -Fq 'Poco F3 (Alioth)' docs/SUPPORT_MATRIX.md || fail "support matrix must record the intended target"
+grep -Fq 'NOT TESTED' docs/SUPPORT_MATRIX.md || fail "support matrix must mark the target untested"
+pass "support matrix defaults to unverified and identifies the target for testing"
 
 grep -Fq 'Never invokes su or changes device state' scripts/probe-device.sh || fail "probe must document read-only behavior"
 grep -Fq 'changes_made=false' scripts/probe-device.sh || fail "probe must report no changes"
