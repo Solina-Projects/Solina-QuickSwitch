@@ -4,7 +4,7 @@ set -euo pipefail
 fail() { printf 'FAIL: %s\n' "$1" >&2; exit 1; }
 pass() { printf 'PASS: %s\n' "$1"; }
 
-for path in README.md UPSTREAM_REVIEW.md docs/ARCHITECTURE.md docs/SUPPORT_MATRIX.md scripts/probe-device.sh scripts/resolve-capabilities.sh scripts/build-plan.sh tests/test-probe.sh tests/test-resolver.sh tests/test-plan.sh tests/fixtures/state-launcher-known.properties tests/fixtures/state-missing-provider.properties tests/fixtures/state-malformed.properties; do
+for path in README.md UPSTREAM_REVIEW.md docs/ARCHITECTURE.md docs/SUPPORT_MATRIX.md docs/DEVICE_TEST_REPORT_TEMPLATE.md scripts/probe-device.sh scripts/resolve-capabilities.sh scripts/build-plan.sh tests/test-probe.sh tests/test-resolver.sh tests/test-plan.sh tests/fixtures/state-launcher-known.properties tests/fixtures/state-missing-provider.properties tests/fixtures/state-malformed.properties; do
   [[ -f "$path" ]] || fail "required project file is missing: $path"
 done
 pass "required docs, scripts, fixtures, and tests exist"
@@ -21,7 +21,17 @@ pass "upstream review retains licensing and device-safety requirements"
 grep -Fq 'no configuration is currently verified as supported' docs/SUPPORT_MATRIX.md || fail "support matrix must default to no verified support"
 grep -Fq 'Poco F3 (Alioth)' docs/SUPPORT_MATRIX.md || fail "support matrix must record the intended target"
 grep -Fq 'NOT TESTED' docs/SUPPORT_MATRIX.md || fail "support matrix must mark the target untested"
+grep -Fq 'docs/test-reports/' docs/SUPPORT_MATRIX.md || fail "support matrix must require separate test reports"
 pass "support matrix defaults to unverified and identifies the target for testing"
+
+grep -Fq 'Do not use this template as permission to install or modify anything' docs/DEVICE_TEST_REPORT_TEMPLATE.md || fail "device report template must warn against unauthorized changes"
+grep -Fq 'build fingerprint' docs/DEVICE_TEST_REPORT_TEMPLATE.md || fail "device report template is missing build identification"
+grep -Fq 'KernelSU' docs/DEVICE_TEST_REPORT_TEMPLATE.md || fail "device report template is missing root-manager version capture"
+grep -Fq 'Rollback to baseline' docs/DEVICE_TEST_REPORT_TEMPLATE.md || fail "device report template is missing rollback coverage"
+grep -Fq 'Recovery after simulated failure' docs/DEVICE_TEST_REPORT_TEMPLATE.md || fail "device report template is missing recovery coverage"
+grep -Fq 'Provider reset / restore' docs/DEVICE_TEST_REPORT_TEMPLATE.md || fail "device report template is missing provider reset coverage"
+grep -Fq 'Overall result' docs/DEVICE_TEST_REPORT_TEMPLATE.md || fail "device report template is missing final assessment"
+pass "device report template includes identity, recovery, required tests, and assessment gates"
 
 grep -Fq 'Never invokes su or changes device state' scripts/probe-device.sh || fail "probe must document read-only behavior"
 grep -Fq 'changes_made=false' scripts/probe-device.sh || fail "probe must report no changes"
