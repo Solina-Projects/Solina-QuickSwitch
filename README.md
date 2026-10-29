@@ -33,17 +33,18 @@ See [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md) for the source and licensing review
 - [x] Add a non-mutating plan preview and recovery checklist using synthetic state fixtures.
 - [x] Add an evidence-based support matrix with all unverified configurations explicitly marked NOT TESTED.
 - [x] Add a guarded device-test report template and validate required evidence fields.
+- [x] Collect an initial read-only launcher inventory from the target Poco F3: Nova Launcher is the resolved default HOME activity; Solina Launcher debug reports `16.Dev.(#60)`.
+- [ ] Collect exact Android build/API details, KernelSU version, and Nova Launcher version.
+- [ ] Confirm Quickstep/Recents integration through reviewed evidence; the presence of a QuickstepLauncher activity alone is insufficient.
 - [ ] Verify licenses and permissions, or proceed with an independently authored clean-room implementation.
-- [ ] Collect real-device inventory output and confirm the active launcher, exact package/version, and Quickstep integration through reviewed evidence.
-- [ ] Record exact Android build and KernelSU version for the target test setup.
-- [ ] Establish a verified support matrix using real test reports and recovery results.
+- [ ] Establish a verified support matrix using real functional test reports and recovery results.
 - [ ] Implement module/provider changes only after the support matrix and rollback method are verified.
 - [ ] Build and validate a test package on a recoverable test device.
 - [ ] Add the **Release** workflow only after the test path is proven.
 
 ## Support matrix and test requirements
 
-See [docs/SUPPORT_MATRIX.md](docs/SUPPORT_MATRIX.md). It records the Poco F3 (Alioth) / Android 16 / KernelSU setup as a proposed target, **not tested or supported**. Exact KernelSU and launcher versions and real-device test evidence are still missing. No configuration is currently verified as supported.
+See [docs/SUPPORT_MATRIX.md](docs/SUPPORT_MATRIX.md). The Poco F3 (Alioth) / Android 16 / KernelSU setup is a proposed target and remains **NOT TESTED**. The current default HOME activity resolved to Nova Launcher (`com.teslacoilsw.launcher`); the installed Solina Launcher debug package reports `16.Dev.(#60)`. Exact Android build/API, KernelSU version, Nova Launcher version, licensing clearance, Quickstep integration, and real-device functional test evidence are still missing. No configuration is currently verified as supported.
 
 Before any approved real-device test, copy [docs/DEVICE_TEST_REPORT_TEMPLATE.md](docs/DEVICE_TEST_REPORT_TEMPLATE.md) into `docs/test-reports/` using a unique descriptive filename, then fill it with the exact environment, preconditions, results, redacted evidence, and reviewer assessment. Do not create a report that implies tests were run when they were not.
 
@@ -81,7 +82,7 @@ bash scripts/inventory-launchers.sh --fixture tests/fixtures/home-candidates.pro
 bash tests/test-launcher-inventory.sh
 ```
 
-Fixture values are synthetic. For the next review, run the live inventory and share its output after checking it for identifiers you do not want to disclose. Do not share account details, tokens, or unrelated logs.
+Fixture values are synthetic. The manual on-device checks recorded in [docs/SUPPORT_MATRIX.md](docs/SUPPORT_MATRIX.md) used read-only `su -c` commands to resolve the current HOME activity and inspect the Solina Launcher version. They identified Nova Launcher as the default at the time of checking, but did not verify Quickstep support. Do not share account details, tokens, or unrelated logs.
 
 ## Conservative capability resolver
 
