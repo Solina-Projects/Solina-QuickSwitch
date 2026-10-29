@@ -67,3 +67,10 @@ References:
 - Release permitted: **NO**
 
 A successful source build or CI run is not proof of device compatibility or bug-free behavior.
+
+
+## Update from the Solina-Launcher API 37 audit (2026-10-29)
+
+The separate development branch [`feature/quickstep-api37-audit`](https://github.com/Solina-Projects/Solina-Launcher/tree/feature/quickstep-api37-audit) now has an **experimental, debug-only** `solinaQuickstepGithubDebug` variant. Its CI run [40815028487](https://github.com/Solina-Projects/Solina-Launcher/actions/runs/40815028487) succeeded and produced a Quickstep-enabled APK artifact. The binary manifest was inspected and includes the Quickstep service/action and Recents activity declarations.
+
+This narrows the earlier build-path blocker: an experimental Quickstep-enabled APK can now be built on that branch. It does **not** resolve API 37 runtime compatibility, grant system/signature privileges, establish ROM provider registration, or make the artifact a release-ready installer. The release SDK support bounds remain 35–36; the debug variant's widened bounds are test-only. The source audit has not identified a confirmed API-37-only change requiring a new compat factory, and device gesture/Recents tests remain NOT RUN. Do not install a QuickSwitch module or switch the active HOME provider on the strength of this build alone.
