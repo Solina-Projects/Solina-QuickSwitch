@@ -31,7 +31,7 @@ The renamed Solina-Launcher repository's README documents the build task:
 
 `assembleLawnWithQuickstepGithubDebug`
 
-The source tree also contains Launcher3/Quickstep-related components and compatibility classes, including `QuickstepCompatFactory` variants. This indicates that a Quickstep-related build path exists in the source. It does **not** prove that the installed debug APK was built from the matching current source/commit, that Android 17/API 37 is fully supported by every integration path, or that the system accepts Solina Launcher as the active Recents provider.
+The source tree contains Launcher3/Quickstep compatibility classes, but the current `main` build configuration defines `quickstepMinSdk = "35"` and `quickstepMaxSdk = "36"`. The target phone reports API 37, which is **outside the configured Quickstep SDK range**. This is a concrete source-level compatibility blocker: do not expect QuickSwitch integration to work on API 37 until Solina Launcher adds and validates API 37 support. The installed debug APK has not been mapped to the current source commit, so we cannot yet confirm whether the installed package has the same limits.
 
 The upstream QuickSwitch README says a launcher must implement Quickstep support itself; the module cannot add that implementation to an otherwise incompatible launcher. It also explicitly cautions that Nova is unlikely to support QuickSwitch. This project therefore prioritizes Solina Launcher.
 
@@ -44,7 +44,7 @@ References:
 
 1. **Pin the exact Solina Launcher source revision** that produced `16.Dev.(#60)`; capture its commit SHA and build variant. If it cannot be mapped to a source revision, build a fresh debug APK from the reviewed Solina Launcher branch before attributing behavior to source.
 2. **Review the Quickstep build configuration** (product flavor/source sets, manifest merge, package ID, API-specific compatibility classes, and required resources/privileged integration). Confirm which Quickstep implementation is included in the installed artifact; do not infer this only from the task name.
-3. **Check Android 17/API 37 coverage** in the source and upstream dependency history. Mark missing/unknown compatibility as a blocker rather than assuming Android 15-era code remains valid.
+3. **Resolve the API 37 blocker:** current `build.gradle` caps Quickstep support at SDK 36 (`quickstepMaxSdk = "36"`), while the target device is API 37. Do not raise this cap blindly; inspect API 37 framework changes and Quickstep APIs, implement the necessary compatibility path in Solina Launcher on a separate feature branch, and build/test it before proceeding.
 4. **Establish licensing/provenance** for the QuickSwitch module and bundled APK/tools. Do not copy or redistribute upstream code or binaries until permissions and licenses are clarified; prefer a documented permission path or an independently authored clean-room implementation.
 5. **Define and review a recovery path** for this exact Poco F3/ROM/KernelSU setup. Record the baseline provider and confirm how to restore it before any state-changing test.
 6. **Prepare a test-only plan** with explicit approval and evidence capture. Initially verify build/package metadata and non-mutating checks only. Do not switch providers, install overlays/modules, or reboot as part of this audit.
@@ -54,6 +54,7 @@ References:
 
 - Intended launcher: **Solina Launcher**
 - Device combination: Poco F3 / Android 17 API 37 / KernelSU 3.2.5 / Solina Launcher debug 16.Dev.(#60)
+- Source-level API range: current Quickstep configuration is SDK 35–36; target API 37 is outside range (**BLOCKED pending launcher compatibility work**)
 - Runtime compatibility: **NOT TESTED**
 - State-changing operations: **DISABLED**
 - Installable QuickSwitch package available from this project: **NO**
