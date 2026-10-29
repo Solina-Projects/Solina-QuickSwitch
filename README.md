@@ -23,42 +23,57 @@ See [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md) for the source and licensing review
 
 - [x] Create the `solina/bootstrap-test` development branch.
 - [x] Review upstream README, module metadata, and installer structure.
-- [x] Document the licensing/redistribution uncertainty in [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md).
-- [x] Add a **Test** GitHub Actions workflow for repository-policy checks and fixture tests.
-- [x] Add a local validation script for project status, licensing safeguards, and accidental artifact detection.
-- [x] Draft a clean-room architecture, safety rules, test layers, and release gates in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+- [x] Document licensing/redistribution uncertainty in [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md).
+- [x] Add a **Test** GitHub Actions workflow.
+- [x] Add repository-policy validation and accidental artifact detection.
+- [x] Draft the clean-room architecture, safety rules, test layers, and release gates in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 - [x] Add a read-only compatibility probe with simulated fixture tests.
-- [ ] Confirm applicable licenses and permissions, or proceed with a clean-room implementation.
-- [ ] Implement module and provider-switching functionality.
-- [ ] Add implementation-level static checks and automated tests.
-- [ ] Build and validate a test package on supported devices.
+- [x] Add a conservative capability resolver that blocks state changes for every currently unverified configuration.
+- [ ] Verify licenses and permissions, or proceed with an independently authored clean-room implementation.
+- [ ] Establish a documented launcher/Android/root-manager support matrix.
+- [ ] Implement a non-mutating change-plan builder and recovery-plan output.
+- [ ] Implement module/provider changes only after the support matrix and rollback method are verified.
+- [ ] Build and validate a test package on a recoverable test device.
 - [ ] Add the **Release** workflow only after the test path is proven.
 
 ## Read-only compatibility probe
 
-Run on Android:
+On Android, run:
 
 ```bash
 bash scripts/probe-device.sh
 ```
 
-To exercise the parser on a computer without accessing a phone, use the simulated fixtures:
+To use simulated fixture data on a computer:
 
 ```bash
 bash scripts/probe-device.sh --fixture tests/fixtures/android16-kernelsu.properties
 bash tests/test-probe.sh
 ```
 
-The probe only reads the Android API level, package-manager availability, and a few conventional root-manager marker paths. It never calls `su`, installs or removes packages, changes settings, switches providers, or reboots. Root-manager detection can be incomplete, so `unknown` requires manual review. Fixture output is simulated, not evidence from a real device. `candidate_only` is not a compatibility guarantee and does not verify whether a launcher implements Quickstep.
+The probe reads the Android API level, package-manager availability, and conventional root-manager marker paths. It never calls `su`, installs or removes packages, changes settings, switches providers, or reboots. Detection can be incomplete; `unknown` requires manual review. Fixture data is simulated, not evidence from a real device. The probe's `candidate_only` result is not a compatibility guarantee.
+
+## Conservative capability resolver
+
+The resolver consumes the probe's key/value output and returns a planning status without changing device state:
+
+```bash
+bash scripts/probe-device.sh | bash scripts/resolve-capabilities.sh
+# Or evaluate a saved probe record:
+bash scripts/resolve-capabilities.sh --probe path/to/probe-output.txt
+bash tests/test-resolver.sh
+```
+
+Until an explicit launcher + Android API + root-manager support matrix is documented and tested, the resolver deliberately reports configurations as `untested`, `unsupported`, `blocked`, or `manual_review`. It always prints `state_changes_allowed=false`. This is a fail-closed safety scaffold, not proof that Quickstep will work.
 
 ## GitHub Actions
 
-Only two workflows are intended for this project:
+Only two workflows are intended:
 
-1. **Test** — checks repository documentation and safety gates, then runs probe tests against simulated fixtures on pushes, pull requests, and manual dispatch.
-2. **Release** — to be added later, only after there is a tested and legally distributable package.
+1. **Test** — validates documentation and safeguards, then tests the probe and capability resolver using simulated fixtures.
+2. **Release** — to be added only after the project has a legally distributable package and a tested recovery path.
 
-The current Test workflow is deliberately not a build workflow. A green result does **not** mean that an installable module exists or that Quickstep integration works on a phone.
+A successful Test run is not a module build or a real-device compatibility test.
 
 ## Safety
 
