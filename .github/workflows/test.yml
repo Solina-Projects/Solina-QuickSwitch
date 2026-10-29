@@ -32,6 +32,9 @@ jobs:
       - name: Test read-only compatibility probe using simulated fixtures
         run: bash tests/test-probe.sh
 
+      - name: Test read-only launcher inventory using simulated fixtures
+        run: bash tests/test-launcher-inventory.sh
+
       - name: Test conservative capability resolver
         run: bash tests/test-resolver.sh
 
