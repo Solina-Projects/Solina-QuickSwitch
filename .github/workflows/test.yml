@@ -34,3 +34,6 @@ jobs:
 
       - name: Test conservative capability resolver
         run: bash tests/test-resolver.sh
+
+      - name: Test fail-closed plan preview
+        run: bash tests/test-plan.sh
