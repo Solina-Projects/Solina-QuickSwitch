@@ -28,3 +28,6 @@ jobs:
 
       - name: Validate project state and release safeguards
         run: bash scripts/validate-project.sh
+
+      - name: Test read-only compatibility probe using simulated fixtures
+        run: bash tests/test-probe.sh
