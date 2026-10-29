@@ -30,20 +30,11 @@ The row above identifies a proposed test target only. It does not mean the curre
 
 Do not infer support from root access, a successful build, a passing fixture test, or a package installing.
 
-## Test report template
+## Test report process
 
-For every attempted configuration, create a separate report under docs/test-reports/ with:
-
-- Date and tester
-- Device model and codename
-- Android version, API level, and build fingerprint
-- Root manager and exact version
-- Launcher package/version
-- Commit SHA and package checksum (if an approved package exists)
-- Preconditions and recovery method
-- Results for every required test above
-- Logs with secrets and unnecessary identifiers removed
-- Final result: PASS, FAIL, or INCOMPLETE
-- Reviewer and review date
+1. Start from [DEVICE_TEST_REPORT_TEMPLATE.md](DEVICE_TEST_REPORT_TEMPLATE.md).
+2. Only after test authorization and a verified recovery method, save a separate completed report under `docs/test-reports/`, using a unique descriptive filename.
+3. Mark unexecuted tests as NOT RUN or INCOMPLETE. Include only redacted evidence and do not include secrets or unnecessary device/account identifiers.
+4. Submit the report for review before changing any support status. Do not add a completed report for a test that did not happen.
 
 Until an evidence-backed report is reviewed, all combinations remain NOT TESTED and state-changing features remain disabled.
