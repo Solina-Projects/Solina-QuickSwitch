@@ -31,3 +31,6 @@ jobs:
 
       - name: Test read-only compatibility probe using simulated fixtures
         run: bash tests/test-probe.sh
+
+      - name: Test conservative capability resolver
+        run: bash tests/test-resolver.sh
