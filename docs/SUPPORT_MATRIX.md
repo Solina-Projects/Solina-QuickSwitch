@@ -6,7 +6,22 @@ Status: **no configuration is currently verified as supported**. This file is a 
 
 | Device | Android | Root manager | Launcher and version | Result | Evidence |
 |---|---|---|---|---|---|
-| Poco F3 (Alioth) | Android 16 (reported target) | KernelSU (reported target; version not recorded here) | Not recorded | NOT TESTED | No on-device test report exists |
+| Poco F3 (Alioth) | Android 16 (reported target; build fingerprint/API not collected) | KernelSU (root access confirmed; exact version not collected) | Nova Launcher, package `com.teslacoilsw.launcher`; version not collected | NOT TESTED | Read-only on-device inventory shared on 2026-10-29; no functional Quickstep/Recents test report |
+
+### Additional on-device inventory findings
+
+The following were observed from commands executed by the user on the target phone with root access. They are inventory facts, not a compatibility result:
+
+- HOME activity candidates included:
+  - `com.android.launcher3/.uioverrides.QuickstepLauncher`
+  - `com.solina.launcher.debug/app.lawnchair.LawnchairLauncher`
+  - `com.teslacoilsw.launcher/.NovaLauncher`
+  - `com.android.settings/.FallbackHome`
+- `cmd package resolve-activity --user 0 ... HOME` resolved to `com.teslacoilsw.launcher/.NovaLauncher`, identifying Nova Launcher as the current default HOME activity at the time of the check.
+- Installed Solina Launcher debug package reports `versionName=16.Dev.(#60)`.
+- `su -c id` confirmed root command execution as `uid=0(root)` under KernelSU.
+- The presence of `com.android.launcher3/.uioverrides.QuickstepLauncher` does not prove that Nova Launcher or Solina Launcher integrates with Quickstep, nor that Solina-QuickSwitch is compatible.
+- Android build fingerprint/API level, exact KernelSU version, Nova Launcher version, and actual Recents/Quickstep behavior remain unverified.
 
 The row above identifies a proposed test target only. It does not mean the current project works on this device.
 
