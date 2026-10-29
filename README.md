@@ -26,7 +26,7 @@ See [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md) for the source and licensing review
 - [x] Document the licensing/redistribution uncertainty in [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md).
 - [x] Add a **Test** GitHub Actions workflow for repository-policy checks.
 - [x] Add a local validation script for project status, licensing safeguards, and accidental artifact detection.
-- [ ] Confirm applicable licenses and permissions, or proceed with a clean-room implementation.
+- [x] Draft a clean-room architecture, safety rules, test layers, and release gates in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).\n- [ ] Confirm applicable licenses and permissions, or proceed with a clean-room implementation.
 - [ ] Implement module and provider-switching functionality.
 - [ ] Add implementation-level static checks and automated tests.
 - [ ] Build and validate a test package on supported devices.
