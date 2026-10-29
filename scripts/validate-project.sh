@@ -4,7 +4,7 @@ set -euo pipefail
 fail() { printf 'FAIL: %s\n' "$1" >&2; exit 1; }
 pass() { printf 'PASS: %s\n' "$1"; }
 
-for path in README.md UPSTREAM_REVIEW.md docs/ARCHITECTURE.md docs/SUPPORT_MATRIX.md docs/DEVICE_TEST_REPORT_TEMPLATE.md scripts/probe-device.sh scripts/resolve-capabilities.sh scripts/build-plan.sh tests/test-probe.sh tests/test-resolver.sh tests/test-plan.sh tests/fixtures/state-launcher-known.properties tests/fixtures/state-missing-provider.properties tests/fixtures/state-malformed.properties; do
+for path in README.md UPSTREAM_REVIEW.md docs/ARCHITECTURE.md docs/SUPPORT_MATRIX.md docs/DEVICE_TEST_REPORT_TEMPLATE.md scripts/probe-device.sh scripts/inventory-launchers.sh scripts/resolve-capabilities.sh scripts/build-plan.sh tests/test-probe.sh tests/test-launcher-inventory.sh tests/test-resolver.sh tests/test-plan.sh tests/fixtures/home-candidates.properties tests/fixtures/home-invalid.properties tests/fixtures/state-launcher-known.properties tests/fixtures/state-missing-provider.properties tests/fixtures/state-malformed.properties; do
   [[ -f "$path" ]] || fail "required project file is missing: $path"
 done
 pass "required docs, scripts, fixtures, and tests exist"
@@ -35,11 +35,14 @@ pass "device report template includes identity, recovery, required tests, and as
 
 grep -Fq 'Never invokes su or changes device state' scripts/probe-device.sh || fail "probe must document read-only behavior"
 grep -Fq 'changes_made=false' scripts/probe-device.sh || fail "probe must report no changes"
+grep -Fq 'Never invokes su or changes state' scripts/inventory-launchers.sh || fail "launcher inventory must document read-only behavior"
+grep -Fq 'active_home=not_identified' scripts/inventory-launchers.sh || fail "launcher inventory must not guess active launcher"
+grep -Fq 'quickstep_support=not_verified' scripts/inventory-launchers.sh || fail "launcher inventory must not infer Quickstep support"
 grep -Fq 'state_changes_allowed=false' scripts/resolve-capabilities.sh || fail "resolver must block state changes"
 grep -Fq 'plan_status=blocked' scripts/build-plan.sh || fail "plan builder must fail closed"
 grep -Fq 'executable_commands=none' scripts/build-plan.sh || fail "plan builder must not emit runnable commands"
 grep -Fq 'changes_made=false' scripts/build-plan.sh || fail "plan builder must report no changes"
-pass "probe, resolver, and plan builder retain read-only safeguards"
+pass "probe, launcher inventory, resolver, and plan builder retain safety safeguards"
 
 if find . -type f \( -iname '*.apk' -o -iname '*.zip' \) -not -path './.git/*' -print -quit | grep -q .; then
   fail "unexpected APK/ZIP artifact found before an approved build pipeline"
