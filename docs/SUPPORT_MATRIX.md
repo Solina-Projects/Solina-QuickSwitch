@@ -2,11 +2,17 @@
 
 Status: **no configuration is currently verified as supported**. This file is a test-planning record, not a compatibility claim.
 
+## Intended target: Solina Launcher
+
+Solina Launcher is the intended launcher for this project. The Solina Launcher repository documents a build task named `assembleLawnWithQuickstepGithubDebug`, and its source tree contains Launcher3/Quickstep compatibility code. This is source-level evidence that a Quickstep build path exists, **not** proof that the installed package is correctly integrated with the device's Android 17 Recents implementation. See [SOLINA_LAUNCHER_INTEGRATION.md](SOLINA_LAUNCHER_INTEGRATION.md) for the audit and required checks.
+
+The upstream QuickSwitch README states that launchers must implement Quickstep support themselves and notes that Nova is unlikely to support QuickSwitch. Therefore, Nova is not the intended integration target for this project.
+
 ## Known target to investigate
 
 | Device | Android | Root manager | Launcher and version | Result | Evidence |
 |---|---|---|---|---|---|
-| Poco F3 (Alioth) | Android 17 (device reports release `17`, API 37) | KernelSU `ksud 3.2.5` | Nova Launcher `8.9.6` (version code `89600`), package `com.teslacoilsw.launcher` | NOT TESTED | Read-only on-device commands shared on 2026-10-29; no functional Quickstep/Recents test report |
+| Poco F3 (Alioth) | Android 17 (device reports release `17`, API 37) | KernelSU `ksud 3.2.5` | **Solina Launcher debug** `16.Dev.(#60)`, package `com.solina.launcher.debug` | NOT TESTED | Installed package inventory plus source-level Quickstep build-path evidence; no functional Quickstep/Recents test report |
 
 ### Additional on-device inventory findings
 
