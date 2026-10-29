@@ -6,7 +6,7 @@ Status: **no configuration is currently verified as supported**. This file is a 
 
 | Device | Android | Root manager | Launcher and version | Result | Evidence |
 |---|---|---|---|---|---|
-| Poco F3 (Alioth) | Android 17 (device reports release `17`, API 37) | KernelSU (root access confirmed; exact version not collected) | Nova Launcher, package `com.teslacoilsw.launcher`; version not collected | NOT TESTED | Read-only on-device inventory shared on 2026-10-29; no functional Quickstep/Recents test report |
+| Poco F3 (Alioth) | Android 17 (device reports release `17`, API 37) | KernelSU `ksud 3.2.5` | Nova Launcher `8.9.6` (version code `89600`), package `com.teslacoilsw.launcher` | NOT TESTED | Read-only on-device commands shared on 2026-10-29; no functional Quickstep/Recents test report |
 
 ### Additional on-device inventory findings
 
@@ -22,7 +22,7 @@ The following were observed from commands executed by the user on the target pho
 - `getprop ro.build.version.release` returned `17`; `getprop ro.build.version.sdk` returned `37`.
 - `su -c id` confirmed root command execution as `uid=0(root)` under KernelSU.
 - The presence of `com.android.launcher3/.uioverrides.QuickstepLauncher` does not prove that Nova Launcher or Solina Launcher integrates with Quickstep, nor that Solina-QuickSwitch is compatible.
-- Android build fingerprint, exact KernelSU version, Nova Launcher version, and actual Recents/Quickstep behavior remain unverified.
+- Android build fingerprint and actual Recents/Quickstep behavior remain unverified. `su -c 'ksud -V'` returned `ksud 3.2.5`; package inspection returned Nova `versionName=89600 (8.9.6)`. These are inventory facts only.
 
 The row above identifies a proposed test target only. It does not mean the current project works on this device.
 
