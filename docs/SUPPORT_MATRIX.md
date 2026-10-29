@@ -4,7 +4,7 @@ Status: **no configuration is currently verified as supported**. This file is a 
 
 ## Intended target: Solina Launcher
 
-Solina Launcher is the intended launcher for this project. The Solina Launcher repository documents a build task named `assembleLawnWithQuickstepGithubDebug`, and its source tree contains Launcher3/Quickstep compatibility code. This is source-level evidence that a Quickstep build path exists, **not** proof that the installed package is correctly integrated with the device's Android 17 Recents implementation. See [SOLINA_LAUNCHER_INTEGRATION.md](SOLINA_LAUNCHER_INTEGRATION.md) for the audit and required checks.
+Solina Launcher is the intended launcher for this project; its renamed canonical repository is [Solina-Projects/Solina-Launcher](https://github.com/Solina-Projects/Solina-Launcher). The current reviewed `main` source snapshot is `cbd58321761781fcdaea5e9e517ef99875ed5ed4`, but the installed `16.Dev.(#60)` APK has not been mapped to that exact commit. The repository documents a build task named `assembleLawnWithQuickstepGithubDebug`, and its source tree contains Launcher3/Quickstep compatibility code. This is source-level evidence that a Quickstep build path exists, **not** proof that the installed package is correctly integrated with the device's Android 17 Recents implementation. See [SOLINA_LAUNCHER_INTEGRATION.md](SOLINA_LAUNCHER_INTEGRATION.md) for the audit and required checks.
 
 The upstream QuickSwitch README states that launchers must implement Quickstep support themselves and notes that Nova is unlikely to support QuickSwitch. Therefore, Nova is not the intended integration target for this project.
 
