@@ -36,6 +36,7 @@ See [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md) for the source and licensing review
 - [x] Collect an initial read-only launcher inventory from the target Poco F3: Nova Launcher is the resolved default HOME activity; Solina Launcher debug reports `16.Dev.(#60)`.
 - [x] Collect the device-reported Android release and API level: release `17`, API `37`.
 - [x] Collect exact KernelSU version (`ksud 3.2.5`) and Nova Launcher version (`8.9.6`, version code `89600`).
+- [x] Identify Solina Launcher as the intended Quickstep integration target and begin a source-level integration audit in [docs/SOLINA_LAUNCHER_INTEGRATION.md](docs/SOLINA_LAUNCHER_INTEGRATION.md).
 - [ ] Confirm Quickstep/Recents integration through reviewed evidence; the presence of a QuickstepLauncher activity alone is insufficient.
 - [ ] Verify licenses and permissions, or proceed with an independently authored clean-room implementation.
 - [ ] Establish a verified support matrix using real functional test reports and recovery results.
@@ -45,7 +46,7 @@ See [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md) for the source and licensing review
 
 ## Support matrix and test requirements
 
-See [docs/SUPPORT_MATRIX.md](docs/SUPPORT_MATRIX.md). The Poco F3 (Alioth) reports Android release `17` and API `37`; this configuration remains **NOT TESTED**. The current default HOME activity resolved to Nova Launcher (`com.teslacoilsw.launcher`); the installed Solina Launcher debug package reports `16.Dev.(#60)`. Exact Android build fingerprint, licensing clearance, Quickstep integration, and real-device functional test evidence are still missing. The device reports KernelSU `ksud 3.2.5` and Nova Launcher `8.9.6` (version code `89600`); these inventory details do not establish compatibility. No configuration is currently verified as supported.
+See [docs/SUPPORT_MATRIX.md](docs/SUPPORT_MATRIX.md). The Poco F3 (Alioth) reports Android release `17` and API `37`; this configuration remains **NOT TESTED**. The current default HOME activity resolved to Nova Launcher (`com.teslacoilsw.launcher`); the installed Solina Launcher debug package reports `16.Dev.(#60)`. Exact Android build fingerprint, licensing clearance, Quickstep runtime integration, and real-device functional test evidence are still missing. Solina Launcher is the intended target; see [the integration audit](docs/SOLINA_LAUNCHER_INTEGRATION.md). The device reports KernelSU `ksud 3.2.5`, Nova Launcher `8.9.6` (version code `89600`), and Solina Launcher debug `16.Dev.(#60)`; these inventory details do not establish compatibility. No configuration is currently verified as supported.
 
 Before any approved real-device test, copy [docs/DEVICE_TEST_REPORT_TEMPLATE.md](docs/DEVICE_TEST_REPORT_TEMPLATE.md) into `docs/test-reports/` using a unique descriptive filename, then fill it with the exact environment, preconditions, results, redacted evidence, and reviewer assessment. Do not create a report that implies tests were run when they were not.
 
