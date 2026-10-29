@@ -30,11 +30,17 @@ See [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md) for the source and licensing review
 - [x] Add a read-only compatibility probe with simulated fixture tests.
 - [x] Add a conservative capability resolver that blocks state changes for every currently unverified configuration.
 - [x] Add a non-mutating plan preview and recovery checklist using synthetic state fixtures.
+- [x] Add an evidence-based support matrix with all unverified configurations explicitly marked NOT TESTED.
 - [ ] Verify licenses and permissions, or proceed with an independently authored clean-room implementation.
-- [ ] Establish a documented launcher/Android/root-manager support matrix.
+- [ ] Record exact Android build, KernelSU version, and launcher version for the target test setup.
+- [ ] Establish a verified support matrix using real test reports and recovery results.
 - [ ] Implement module/provider changes only after the support matrix and rollback method are verified.
 - [ ] Build and validate a test package on a recoverable test device.
 - [ ] Add the **Release** workflow only after the test path is proven.
+
+## Support matrix and test requirements
+
+See [docs/SUPPORT_MATRIX.md](docs/SUPPORT_MATRIX.md). It records the Poco F3 (Alioth) / Android 16 / KernelSU setup as a proposed target, **not tested or supported**. Exact KernelSU and launcher versions and real-device test evidence are still missing. No configuration is currently verified as supported.
 
 ## Read-only compatibility probe
 
