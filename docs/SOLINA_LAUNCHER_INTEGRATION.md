@@ -31,7 +31,12 @@ The renamed Solina-Launcher repository's README documents the build task:
 
 `assembleLawnWithQuickstepGithubDebug`
 
-The source tree contains Launcher3/Quickstep compatibility classes, but the current `main` build configuration defines `quickstepMinSdk = "35"` and `quickstepMaxSdk = "36"`. The target phone reports API 37, which is **outside the configured Quickstep SDK range**. This is a concrete source-level compatibility blocker: do not expect QuickSwitch integration to work on API 37 until Solina Launcher adds and validates API 37 support. The installed debug APK has not been mapped to the current source commit, so we cannot yet confirm whether the installed package has the same limits.
+The source tree contains Launcher3/Quickstep compatibility classes, but there are now **two separate blockers** in the current `main` build configuration:
+
+1. `quickstepMinSdk = "35"` and `quickstepMaxSdk = "36"`, while the target phone reports API 37. API 37 is outside the configured Quickstep range.
+2. `androidComponents.beforeVariants` enables only `solinaWithoutQuickstepGithubDebug` and `solinaWithoutQuickstepGithubRelease`, and the repository CI builds those same `WithoutQuickstep` variants. Therefore the current published CI artifacts are explicitly built **without Quickstep**. A Quickstep-related source tree or old installed APK does not prove the current branch produces a Quickstep-enabled APK.
+
+These are source/build-configuration blockers, not a confirmed runtime failure report. The installed debug APK `16.Dev.(#60)` has not been mapped to the current source commit; inspect its provenance separately.
 
 The upstream QuickSwitch README says a launcher must implement Quickstep support itself; the module cannot add that implementation to an otherwise incompatible launcher. It also explicitly cautions that Nova is unlikely to support QuickSwitch. This project therefore prioritizes Solina Launcher.
 
@@ -43,7 +48,7 @@ References:
 ## Required next steps (in order)
 
 1. **Pin the exact Solina Launcher source revision** that produced `16.Dev.(#60)`; capture its commit SHA and build variant. If it cannot be mapped to a source revision, build a fresh debug APK from the reviewed Solina Launcher branch before attributing behavior to source.
-2. **Review the Quickstep build configuration** (product flavor/source sets, manifest merge, package ID, API-specific compatibility classes, and required resources/privileged integration). Confirm which Quickstep implementation is included in the installed artifact; do not infer this only from the task name.
+2. **Restore a deliberate Quickstep build path:** the current `beforeVariants` allowlist and CI matrix only build `solinaWithoutQuickstepGithubDebug/Release`. Review the intended build flavors and manifest merge before enabling any Quickstep variant; confirm the resulting APK actually includes Quickstep components. Do not rely on the README's old task name alone.
 3. **Resolve the API 37 blocker:** current `build.gradle` caps Quickstep support at SDK 36 (`quickstepMaxSdk = "36"`), while the target device is API 37. Do not raise this cap blindly; inspect API 37 framework changes and Quickstep APIs, implement the necessary compatibility path in Solina Launcher on a separate feature branch, and build/test it before proceeding.
 4. **Establish licensing/provenance** for the QuickSwitch module and bundled APK/tools. Do not copy or redistribute upstream code or binaries until permissions and licenses are clarified; prefer a documented permission path or an independently authored clean-room implementation.
 5. **Define and review a recovery path** for this exact Poco F3/ROM/KernelSU setup. Record the baseline provider and confirm how to restore it before any state-changing test.
@@ -54,6 +59,7 @@ References:
 
 - Intended launcher: **Solina Launcher**
 - Device combination: Poco F3 / Android 17 API 37 / KernelSU 3.2.5 / Solina Launcher debug 16.Dev.(#60)
+- Build variant: current CI allowlist builds `WithoutQuickstep` variants only (**BLOCKED: current CI artifacts do not provide Quickstep integration**)
 - Source-level API range: current Quickstep configuration is SDK 35–36; target API 37 is outside range (**BLOCKED pending launcher compatibility work**)
 - Runtime compatibility: **NOT TESTED**
 - State-changing operations: **DISABLED**
