@@ -1,0 +1,58 @@
+# Solina Launcher Quickstep integration audit
+
+Status: **source-level investigation only; runtime support NOT TESTED**.
+
+## Goal
+
+Make Solina Launcher the intended and explicitly tested launcher for Solina-QuickSwitch. Do not treat Nova Launcher as the target. The device's default HOME activity was Nova at the time of inventory, but changing providers or rebooting is not authorized while compatibility and recovery remain unverified.
+
+## Evidence collected
+
+### Installed device package
+
+User-provided read-only device output identified:
+
+- Device: Poco F3 (Alioth)
+- Android release: `17`; API: `37`
+- Root manager: KernelSU; `su -c 'ksud -V'` returned `ksud 3.2.5`
+- Installed Solina Launcher debug package: `com.solina.launcher.debug`
+- Solina Launcher version: `16.Dev.(#60)`
+- Current HOME activity at the time of inspection: `com.teslacoilsw.launcher/.NovaLauncher`
+
+These facts identify the environment; they do not show Quickstep runtime functionality.
+
+### Source-level evidence
+
+The Solina-Launcher2 repository's README documents the build task:
+
+`assembleLawnWithQuickstepGithubDebug`
+
+The source tree also contains Launcher3/Quickstep-related components and compatibility classes, including `QuickstepCompatFactory` variants. This indicates that a Quickstep-related build path exists in the source. It does **not** prove that the installed debug APK was built from the matching current source/commit, that Android 17/API 37 is fully supported by every integration path, or that the system accepts Solina Launcher as the active Recents provider.
+
+The upstream QuickSwitch README says a launcher must implement Quickstep support itself; the module cannot add that implementation to an otherwise incompatible launcher. It also explicitly cautions that Nova is unlikely to support QuickSwitch. This project therefore prioritizes Solina Launcher.
+
+References:
+- [Solina Launcher README](https://github.com/Solina-Projects/Solina-Launcher2/blob/main/README.md)
+- [Solina Launcher manifest](https://github.com/Solina-Projects/Solina-Launcher2/blob/main/AndroidManifest.xml)
+- [Upstream QuickSwitch README](https://github.com/skittles9823/QuickSwitch/blob/master/README.md)
+
+## Required next steps (in order)
+
+1. **Pin the exact Solina Launcher source revision** that produced `16.Dev.(#60)`; capture its commit SHA and build variant. If it cannot be mapped to a source revision, build a fresh debug APK from the reviewed Solina Launcher branch before attributing behavior to source.
+2. **Review the Quickstep build configuration** (product flavor/source sets, manifest merge, package ID, API-specific compatibility classes, and required resources/privileged integration). Confirm which Quickstep implementation is included in the installed artifact; do not infer this only from the task name.
+3. **Check Android 17/API 37 coverage** in the source and upstream dependency history. Mark missing/unknown compatibility as a blocker rather than assuming Android 15-era code remains valid.
+4. **Establish licensing/provenance** for the QuickSwitch module and bundled APK/tools. Do not copy or redistribute upstream code or binaries until permissions and licenses are clarified; prefer a documented permission path or an independently authored clean-room implementation.
+5. **Define and review a recovery path** for this exact Poco F3/ROM/KernelSU setup. Record the baseline provider and confirm how to restore it before any state-changing test.
+6. **Prepare a test-only plan** with explicit approval and evidence capture. Initially verify build/package metadata and non-mutating checks only. Do not switch providers, install overlays/modules, or reboot as part of this audit.
+7. Only after steps 1–6 pass, perform an approved real-device test on a recoverable setup. Test Recents gesture, overview display, app switching, launcher restarts, reboot persistence, provider restoration, rollback, and uninstall. Keep the status NOT TESTED until a report is reviewed.
+
+## Current decision
+
+- Intended launcher: **Solina Launcher**
+- Device combination: Poco F3 / Android 17 API 37 / KernelSU 3.2.5 / Solina Launcher debug 16.Dev.(#60)
+- Runtime compatibility: **NOT TESTED**
+- State-changing operations: **DISABLED**
+- Installable QuickSwitch package available from this project: **NO**
+- Release permitted: **NO**
+
+A successful source build or CI run is not proof of device compatibility or bug-free behavior.
