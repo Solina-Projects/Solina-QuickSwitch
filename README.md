@@ -31,6 +31,7 @@ See [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md) for the source and licensing review
 - [x] Add a conservative capability resolver that blocks state changes for every currently unverified configuration.
 - [x] Add a non-mutating plan preview and recovery checklist using synthetic state fixtures.
 - [x] Add an evidence-based support matrix with all unverified configurations explicitly marked NOT TESTED.
+- [x] Add a guarded device-test report template and validate required evidence fields.
 - [ ] Verify licenses and permissions, or proceed with an independently authored clean-room implementation.
 - [ ] Record exact Android build, KernelSU version, and launcher version for the target test setup.
 - [ ] Establish a verified support matrix using real test reports and recovery results.
@@ -41,6 +42,8 @@ See [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md) for the source and licensing review
 ## Support matrix and test requirements
 
 See [docs/SUPPORT_MATRIX.md](docs/SUPPORT_MATRIX.md). It records the Poco F3 (Alioth) / Android 16 / KernelSU setup as a proposed target, **not tested or supported**. Exact KernelSU and launcher versions and real-device test evidence are still missing. No configuration is currently verified as supported.
+
+Before any approved real-device test, copy [docs/DEVICE_TEST_REPORT_TEMPLATE.md](docs/DEVICE_TEST_REPORT_TEMPLATE.md) into `docs/test-reports/` using a unique descriptive filename, then fill it with the exact environment, preconditions, results, redacted evidence, and reviewer assessment. Do not create a report that implies tests were run when they were not.
 
 ## Read-only compatibility probe
 
