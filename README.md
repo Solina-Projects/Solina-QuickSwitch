@@ -29,9 +29,9 @@ See [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md) for the source and licensing review
 - [x] Draft the clean-room architecture, safety rules, test layers, and release gates in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 - [x] Add a read-only compatibility probe with simulated fixture tests.
 - [x] Add a conservative capability resolver that blocks state changes for every currently unverified configuration.
+- [x] Add a non-mutating plan preview and recovery checklist using synthetic state fixtures.
 - [ ] Verify licenses and permissions, or proceed with an independently authored clean-room implementation.
 - [ ] Establish a documented launcher/Android/root-manager support matrix.
-- [ ] Implement a non-mutating change-plan builder and recovery-plan output.
 - [ ] Implement module/provider changes only after the support matrix and rollback method are verified.
 - [ ] Build and validate a test package on a recoverable test device.
 - [ ] Add the **Release** workflow only after the test path is proven.
@@ -51,7 +51,7 @@ bash scripts/probe-device.sh --fixture tests/fixtures/android16-kernelsu.propert
 bash tests/test-probe.sh
 ```
 
-The probe reads the Android API level, package-manager availability, and conventional root-manager marker paths. It never calls `su`, installs or removes packages, changes settings, switches providers, or reboots. Detection can be incomplete; `unknown` requires manual review. Fixture data is simulated, not evidence from a real device. The probe's `candidate_only` result is not a compatibility guarantee.
+The probe reads the Android API level, package-manager availability, and conventional root-manager marker paths. It does not invoke privileged commands or change device state. Detection can be incomplete; `unknown` requires manual review. Fixture data is simulated, not evidence from a real device. The probe's `candidate_only` result is not a compatibility guarantee.
 
 ## Conservative capability resolver
 
@@ -66,11 +66,22 @@ bash tests/test-resolver.sh
 
 Until an explicit launcher + Android API + root-manager support matrix is documented and tested, the resolver deliberately reports configurations as `untested`, `unsupported`, `blocked`, or `manual_review`. It always prints `state_changes_allowed=false`. This is a fail-closed safety scaffold, not proof that Quickstep will work.
 
+## Non-mutating plan preview
+
+The plan builder combines a probe fixture with a synthetic current-state record. It intentionally returns a blocked preview, zero planned actions, and no executable commands while licensing, compatibility, and recovery remain unverified:
+
+```bash
+bash scripts/build-plan.sh --probe tests/fixtures/android16-kernelsu.properties --state tests/fixtures/state-launcher-known.properties
+bash tests/test-plan.sh
+```
+
+The state fixtures are invented test data, not information collected from your phone. The builder does not connect to Android, change settings, switch providers, install files, or reboot. It emits a recovery checklist only; it cannot make or apply a provider-change plan yet.
+
 ## GitHub Actions
 
 Only two workflows are intended:
 
-1. **Test** — validates documentation and safeguards, then tests the probe and capability resolver using simulated fixtures.
+1. **Test** — validates documentation and safeguards, then tests the probe, capability resolver, and blocked plan preview using simulated fixtures.
 2. **Release** — to be added only after the project has a legally distributable package and a tested recovery path.
 
 A successful Test run is not a module build or a real-device compatibility test.
