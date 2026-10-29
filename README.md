@@ -28,12 +28,14 @@ See [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md) for the source and licensing review
 - [x] Add repository-policy validation and accidental artifact detection.
 - [x] Draft the clean-room architecture, safety rules, test layers, and release gates in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 - [x] Add a read-only compatibility probe with simulated fixture tests.
+- [x] Add a read-only HOME launcher inventory that explicitly avoids claiming active-launcher or Quickstep support.
 - [x] Add a conservative capability resolver that blocks state changes for every currently unverified configuration.
 - [x] Add a non-mutating plan preview and recovery checklist using synthetic state fixtures.
 - [x] Add an evidence-based support matrix with all unverified configurations explicitly marked NOT TESTED.
 - [x] Add a guarded device-test report template and validate required evidence fields.
 - [ ] Verify licenses and permissions, or proceed with an independently authored clean-room implementation.
-- [ ] Record exact Android build, KernelSU version, and launcher version for the target test setup.
+- [ ] Collect real-device inventory output and confirm the active launcher, exact package/version, and Quickstep integration through reviewed evidence.
+- [ ] Record exact Android build and KernelSU version for the target test setup.
 - [ ] Establish a verified support matrix using real test reports and recovery results.
 - [ ] Implement module/provider changes only after the support matrix and rollback method are verified.
 - [ ] Build and validate a test package on a recoverable test device.
@@ -62,13 +64,31 @@ bash tests/test-probe.sh
 
 The probe reads the Android API level, package-manager availability, and conventional root-manager marker paths. It does not invoke privileged commands or change device state. Detection can be incomplete; `unknown` requires manual review. Fixture data is simulated, not evidence from a real device. The probe's `candidate_only` result is not a compatibility guarantee.
 
+## Read-only launcher inventory
+
+Run on the Android device from a shell in the repository:
+
+```bash
+bash scripts/inventory-launchers.sh
+```
+
+The inventory lists parseable HOME activity package candidates and their reported `versionName` values. It does **not** identify the active/default launcher and does not prove Quickstep support; those fields deliberately remain `not_identified` and `not_verified`. It does not use `su`, change settings, install packages, or reboot.
+
+For host-side fixture tests:
+
+```bash
+bash scripts/inventory-launchers.sh --fixture tests/fixtures/home-candidates.properties
+bash tests/test-launcher-inventory.sh
+```
+
+Fixture values are synthetic. For the next review, run the live inventory and share its output after checking it for identifiers you do not want to disclose. Do not share account details, tokens, or unrelated logs.
+
 ## Conservative capability resolver
 
 The resolver consumes the probe's key/value output and returns a planning status without changing device state:
 
 ```bash
 bash scripts/probe-device.sh | bash scripts/resolve-capabilities.sh
-# Or evaluate a saved probe record:
 bash scripts/resolve-capabilities.sh --probe path/to/probe-output.txt
 bash tests/test-resolver.sh
 ```
@@ -90,7 +110,7 @@ The state fixtures are invented test data, not information collected from your p
 
 Only two workflows are intended:
 
-1. **Test** — validates documentation and safeguards, then tests the probe, capability resolver, and blocked plan preview using simulated fixtures.
+1. **Test** — validates documentation and safeguards, then tests the probe, launcher inventory, capability resolver, and blocked plan preview using simulated fixtures.
 2. **Release** — to be added only after the project has a legally distributable package and a tested recovery path.
 
 A successful Test run is not a module build or a real-device compatibility test.
