@@ -26,7 +26,7 @@ pass "support matrix defaults to unverified and identifies the target for testin
 
 grep -Fq 'Do not use this template as permission to install or modify anything' docs/DEVICE_TEST_REPORT_TEMPLATE.md || fail "device report template must warn against unauthorized changes"
 grep -Fq 'build fingerprint' docs/DEVICE_TEST_REPORT_TEMPLATE.md || fail "device report template is missing build identification"
-grep -Fq 'KernelSU' docs/DEVICE_TEST_REPORT_TEMPLATE.md || fail "device report template is missing root-manager version capture"
+grep -Fq 'Root manager exact version' docs/DEVICE_TEST_REPORT_TEMPLATE.md || fail "device report template is missing root-manager version capture"
 grep -Fq 'Rollback to baseline' docs/DEVICE_TEST_REPORT_TEMPLATE.md || fail "device report template is missing rollback coverage"
 grep -Fq 'Recovery after simulated failure' docs/DEVICE_TEST_REPORT_TEMPLATE.md || fail "device report template is missing recovery coverage"
 grep -Fq 'Provider reset / restore' docs/DEVICE_TEST_REPORT_TEMPLATE.md || fail "device report template is missing provider reset coverage"
