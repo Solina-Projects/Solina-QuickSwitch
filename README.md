@@ -24,11 +24,22 @@ See [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md) for the source and licensing review
 - [x] Create the `solina/bootstrap-test` development branch.
 - [x] Review upstream README, module metadata, and installer structure.
 - [x] Document the licensing/redistribution uncertainty in [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md).
+- [x] Add a **Test** GitHub Actions workflow for repository-policy checks.
+- [x] Add a local validation script for project status, licensing safeguards, and accidental artifact detection.
 - [ ] Confirm applicable licenses and permissions, or proceed with a clean-room implementation.
 - [ ] Implement module and provider-switching functionality.
-- [ ] Add static checks and automated tests.
-- [ ] Build and validate a test package.
-- [ ] Prepare a Release workflow only after the test path is proven.
+- [ ] Add implementation-level static checks and automated tests.
+- [ ] Build and validate a test package on supported devices.
+- [ ] Add the **Release** workflow only after the test path is proven.
+
+## GitHub Actions
+
+Only two workflows are intended for this project:
+
+1. **Test** — checks repository documentation and safety gates on pushes, pull requests, and manual dispatch.
+2. **Release** — to be added later, only after there is a tested and legally distributable package.
+
+The current Test workflow is deliberately not a build workflow. A green result does **not** mean that an installable module exists or that Quickstep integration works on a phone.
 
 ## Safety
 
