@@ -44,6 +44,10 @@ See [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md) for the source and licensing review
 - [ ] Build and validate a test package on a recoverable test device.
 - [ ] Add the **Release** workflow only after the test path is proven.
 
+## Latest automated validation
+
+The current branch passed the [Test workflow run 40828908763](https://github.com/Solina-Projects/Solina-QuickSwitch/actions/runs/40828908763) at commit `e6ac1281613bc22f79f918b1ecdc015eb6c5ca73`. It validates repository safeguards and simulated/read-only helper tests only; it does **not** build an installable module or verify device runtime compatibility. See [the dated validation report](docs/AUTOMATED_VALIDATION_REPORT_2026-10-29.md).
+
 ## Support matrix and test requirements
 
 See [docs/SUPPORT_MATRIX.md](docs/SUPPORT_MATRIX.md). The Poco F3 (Alioth) reports Android release `17` and API `37`; this configuration remains **NOT TESTED**. The current default HOME activity resolved to Nova Launcher (`com.teslacoilsw.launcher`); the installed Solina Launcher debug package reports `16.Dev.(#60)`. Exact Android build fingerprint, licensing clearance, Quickstep runtime integration, and real-device functional test evidence are still missing. Solina Launcher is the intended target; see [the integration audit](docs/SOLINA_LAUNCHER_INTEGRATION.md). The device reports KernelSU `ksud 3.2.5`, Nova Launcher `8.9.6` (version code `89600`), and Solina Launcher debug `16.Dev.(#60)`; these inventory details do not establish compatibility. No configuration is currently verified as supported.
