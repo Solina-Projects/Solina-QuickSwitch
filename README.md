@@ -34,7 +34,8 @@ See [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md) for the source and licensing review
 - [x] Add an evidence-based support matrix with all unverified configurations explicitly marked NOT TESTED.
 - [x] Add a guarded device-test report template and validate required evidence fields.
 - [x] Collect an initial read-only launcher inventory from the target Poco F3: Nova Launcher is the resolved default HOME activity; Solina Launcher debug reports `16.Dev.(#60)`.
-- [ ] Collect exact Android build/API details, KernelSU version, and Nova Launcher version.
+- [x] Collect the device-reported Android release and API level: release `17`, API `37`.
+- [ ] Collect exact KernelSU version and Nova Launcher version.
 - [ ] Confirm Quickstep/Recents integration through reviewed evidence; the presence of a QuickstepLauncher activity alone is insufficient.
 - [ ] Verify licenses and permissions, or proceed with an independently authored clean-room implementation.
 - [ ] Establish a verified support matrix using real functional test reports and recovery results.
@@ -44,7 +45,7 @@ See [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md) for the source and licensing review
 
 ## Support matrix and test requirements
 
-See [docs/SUPPORT_MATRIX.md](docs/SUPPORT_MATRIX.md). The Poco F3 (Alioth) / Android 16 / KernelSU setup is a proposed target and remains **NOT TESTED**. The current default HOME activity resolved to Nova Launcher (`com.teslacoilsw.launcher`); the installed Solina Launcher debug package reports `16.Dev.(#60)`. Exact Android build/API, KernelSU version, Nova Launcher version, licensing clearance, Quickstep integration, and real-device functional test evidence are still missing. No configuration is currently verified as supported.
+See [docs/SUPPORT_MATRIX.md](docs/SUPPORT_MATRIX.md). The Poco F3 (Alioth) reports Android release `17` and API `37`; this configuration remains **NOT TESTED**. The current default HOME activity resolved to Nova Launcher (`com.teslacoilsw.launcher`); the installed Solina Launcher debug package reports `16.Dev.(#60)`. Exact Android build fingerprint, KernelSU version, Nova Launcher version, licensing clearance, Quickstep integration, and real-device functional test evidence are still missing. No configuration is currently verified as supported.
 
 Before any approved real-device test, copy [docs/DEVICE_TEST_REPORT_TEMPLATE.md](docs/DEVICE_TEST_REPORT_TEMPLATE.md) into `docs/test-reports/` using a unique descriptive filename, then fill it with the exact environment, preconditions, results, redacted evidence, and reviewer assessment. Do not create a report that implies tests were run when they were not.
 
