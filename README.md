@@ -24,19 +24,38 @@ See [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md) for the source and licensing review
 - [x] Create the `solina/bootstrap-test` development branch.
 - [x] Review upstream README, module metadata, and installer structure.
 - [x] Document the licensing/redistribution uncertainty in [UPSTREAM_REVIEW.md](UPSTREAM_REVIEW.md).
-- [x] Add a **Test** GitHub Actions workflow for repository-policy checks.
+- [x] Add a **Test** GitHub Actions workflow for repository-policy checks and fixture tests.
 - [x] Add a local validation script for project status, licensing safeguards, and accidental artifact detection.
-- [x] Draft a clean-room architecture, safety rules, test layers, and release gates in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).\n- [ ] Confirm applicable licenses and permissions, or proceed with a clean-room implementation.
+- [x] Draft a clean-room architecture, safety rules, test layers, and release gates in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+- [x] Add a read-only compatibility probe with simulated fixture tests.
+- [ ] Confirm applicable licenses and permissions, or proceed with a clean-room implementation.
 - [ ] Implement module and provider-switching functionality.
 - [ ] Add implementation-level static checks and automated tests.
 - [ ] Build and validate a test package on supported devices.
 - [ ] Add the **Release** workflow only after the test path is proven.
 
+## Read-only compatibility probe
+
+Run on Android:
+
+```bash
+bash scripts/probe-device.sh
+```
+
+To exercise the parser on a computer without accessing a phone, use the simulated fixtures:
+
+```bash
+bash scripts/probe-device.sh --fixture tests/fixtures/android16-kernelsu.properties
+bash tests/test-probe.sh
+```
+
+The probe only reads the Android API level, package-manager availability, and a few conventional root-manager marker paths. It never calls `su`, installs or removes packages, changes settings, switches providers, or reboots. Root-manager detection can be incomplete, so `unknown` requires manual review. Fixture output is simulated, not evidence from a real device. `candidate_only` is not a compatibility guarantee and does not verify whether a launcher implements Quickstep.
+
 ## GitHub Actions
 
 Only two workflows are intended for this project:
 
-1. **Test** — checks repository documentation and safety gates on pushes, pull requests, and manual dispatch.
+1. **Test** — checks repository documentation and safety gates, then runs probe tests against simulated fixtures on pushes, pull requests, and manual dispatch.
 2. **Release** — to be added later, only after there is a tested and legally distributable package.
 
 The current Test workflow is deliberately not a build workflow. A green result does **not** mean that an installable module exists or that Quickstep integration works on a phone.
