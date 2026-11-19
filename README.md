@@ -1,5 +1,9 @@
 # Solina-QuickSwitch
 
+<p align="center">
+  <img src="assets/icon-512.png" alt="Solina QuickSwitch icon" width="120" height="120">
+</p>
+
 Solina-QuickSwitch is the planned Solina-maintained project for research, compatibility work, and future improvements around Quickstep integration on rooted Android devices.
 
 > **Development status: planning/review only.** This repository does not yet contain an installable module. Do not install or distribute it as a working QuickSwitch replacement.
